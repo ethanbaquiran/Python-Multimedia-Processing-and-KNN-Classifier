@@ -8,19 +8,15 @@ import struct
 NUM_CHANNELS = 3
 
 
-# --------------------------------------------------------------------------- #
-
-# YOU SHOULD NOT MODIFY THESE TWO METHODS
-
 def img_read_helper(path):
     """
     Creates an RGBImage object from the given image file
     """
-    # Open the image in RGB
+
     img = Image.open(path).convert("RGB")
-    # Convert to numpy array and then to a list
+
     matrix = np.array(img).tolist()
-    # Use student's code to create an RGBImage object
+
     return RGBImage(matrix)
 
 
@@ -28,17 +24,16 @@ def img_save_helper(path, image):
     """
     Saves the given RGBImage instance to the given path
     """
-    # Convert list to numpy array
+
     img_array = np.array(image.get_pixels())
-    # Convert numpy array to PIL Image object
+
     img = Image.fromarray(img_array.astype(np.uint8))
-    # Save the image object to path
+
     img.save(path)
 
 
-# --------------------------------------------------------------------------- #
 
-# Part 1: RGB Image #
+#RGB Image #
 class RGBImage:
     """
     Represents an image in RGB format
@@ -70,7 +65,6 @@ class RGBImage:
         >>> img.num_cols
         2
         """
-        # YOUR CODE GOES HERE #
         if not isinstance(pixels, list):
             raise TypeError
 
@@ -97,7 +91,6 @@ class RGBImage:
         self.pixels = pixels
         self.num_rows = len(pixels)
         self.num_cols = len(pixels[0])
-        # Raise exceptions here
         
 
     def size(self):
@@ -112,7 +105,6 @@ class RGBImage:
         >>> img.size()
         (1, 2)
         """
-        # YOUR CODE GOES HERE #
         return (self.num_rows, self.num_cols)
 
     def get_pixels(self):
@@ -136,7 +128,6 @@ class RGBImage:
         >>> id(pixels[0][1]) != id(img_pixels[0][1]) # Check pixel
         True
         """
-        # YOUR CODE GOES HERE #
         deepc = [[[k for k in j ]for j in i] for i in self.pixels]
         return deepc
 
@@ -155,7 +146,6 @@ class RGBImage:
         >>> id(img_copy) != id(img)
         True
         """
-        # YOUR CODE GOES HERE #
         copy = self.get_pixels()
         return RGBImage(copy)
 
@@ -179,7 +169,6 @@ class RGBImage:
         >>> img.get_pixel(0, 0)
         (255, 255, 255)
         """
-        # YOUR CODE GOES HERE #
         if type(row) != int or type(col) != int:
             raise TypeError()
         if row <0 or col <0:
@@ -211,7 +200,6 @@ class RGBImage:
         >>> img.pixels
         [[[255, 0, 0], [0, 0, 0]]]
         """
-        # YOUR CODE GOES HERE #
         if type(row) != int or type(col) != int:
             raise TypeError()
         for i in new_color:
@@ -229,7 +217,7 @@ class RGBImage:
                 continue
 
 
-# Part 2: Image Processing Template Methods #
+# Image Processing Template Methods #
 class ImageProcessingTemplate:
     """
     Contains assorted image processing methods
@@ -245,7 +233,6 @@ class ImageProcessingTemplate:
         >>> img_proc.cost
         0
         """
-        # YOUR CODE GOES HERE #
         self.cost = 0
 
     def get_cost(self):
@@ -258,7 +245,6 @@ class ImageProcessingTemplate:
         >>> img_proc.get_cost()
         50
         """
-        # YOUR CODE GOES HERE #
         return self.cost
 
     def negate(self, image):
@@ -290,7 +276,6 @@ class ImageProcessingTemplate:
         True
         >>> img_save_helper('img/out/test_image_32x32_negate.png', img_negate)# 6
         """
-        # YOUR CODE GOES HERE #
         new = [[[255 - i for i in j] for j in k] for k in image.pixels]
         return RGBImage(new)
 
@@ -308,7 +293,6 @@ class ImageProcessingTemplate:
         True
         >>> img_save_helper('img/out/test_image_32x32_gray.png', img_gray)
         """
-        # YOUR CODE GOES HERE #
         new_pixels = [[[int((int(j[0])+int(j[1])+int(j[2]))/3) for i in j]for j in k] for k in image.pixels]
         return RGBImage(new_pixels)
 
@@ -327,7 +311,6 @@ class ImageProcessingTemplate:
         True
         >>> img_save_helper('img/out/test_image_32x32_rotate.png', img_rotate)
         """
-        # YOUR CODE GOES HERE #
         new_pixels =  [row[::-1] for row in image.pixels[::-1]]
         return RGBImage(new_pixels)
 
@@ -340,7 +323,6 @@ class ImageProcessingTemplate:
         >>> img_proc.get_average_brightness(img)
         86
         """
-        # YOUR CODE GOES HERE #
         bright = [int((j[0]+j[1]+j[2])/3) for k in image.pixels for j in k]
         return int(sum(bright)/len(bright))
 
@@ -356,7 +338,6 @@ class ImageProcessingTemplate:
         True
         >>> img_save_helper('img/out/test_image_32x32_adjusted.png', img_adjust)
         """
-        # YOUR CODE GOES HERE #
         if type(intensity) != float:
             raise TypeError()
 
@@ -364,7 +345,7 @@ class ImageProcessingTemplate:
         return RGBImage(new_adjust_bright)
 
 
-# Part 3: Standard Image Processing Methods #
+# Standard Image Processing Methods #
 class StandardImageProcessing(ImageProcessingTemplate):
     """
     Represents a standard tier of an image processor
@@ -379,7 +360,6 @@ class StandardImageProcessing(ImageProcessingTemplate):
         >>> img_proc.cost
         0
         """
-        # YOUR CODE GOES HERE #
         self.cost = 0
         self.coupon = 0
 
@@ -402,7 +382,6 @@ class StandardImageProcessing(ImageProcessingTemplate):
         >>> img_negate.pixels == img_exp.pixels # Check negate output
         True
         """
-        # YOUR CODE GOES HERE #
         if self.coupon < 1:
             self.cost += 5
         else:
@@ -415,7 +394,6 @@ class StandardImageProcessing(ImageProcessingTemplate):
         Returns a grayscale copy of the given image
 
         """
-        # YOUR CODE GOES HERE #
         if self.coupon < 1:
             self.cost += 6
         else:
@@ -426,7 +404,6 @@ class StandardImageProcessing(ImageProcessingTemplate):
         """
         Returns a rotated version of the given image
         """
-        # YOUR CODE GOES HERE #
         if self.coupon < 1:
             self.cost += 10
         else:
@@ -437,7 +414,6 @@ class StandardImageProcessing(ImageProcessingTemplate):
         """
         Returns a new image with adjusted brightness level
         """
-        # YOUR CODE GOES HERE #
         if self.coupon < 1:
             self.cost += 1
         else:
@@ -457,7 +433,6 @@ class StandardImageProcessing(ImageProcessingTemplate):
         >>> img_proc.get_cost()
         0
         """
-        # YOUR CODE GOES HERE #
         if type(amount) != int:
             raise TypeError()
         elif amount <=0:
@@ -467,7 +442,7 @@ class StandardImageProcessing(ImageProcessingTemplate):
 
 
 
-# Part 4: Premium Image Processing Methods #
+# Premium Image Processing Methods #
 class PremiumImageProcessing(ImageProcessingTemplate):
     """
     Represents a paid tier of an image processor
@@ -482,7 +457,6 @@ class PremiumImageProcessing(ImageProcessingTemplate):
         >>> img_proc.get_cost()
         50
         """
-        # YOUR CODE GOES HERE #
         self.cost = 50
 
     def pixelate(self, image, block_dim):
@@ -498,7 +472,6 @@ class PremiumImageProcessing(ImageProcessingTemplate):
         True
         >>> img_save_helper('img/out/test_image_32x32_pixelate.png', img_pixelate)
         """
-        # YOUR CODE GOES HERE #
         height = len(image.pixels)
         width = len(image.pixels[0])
 
@@ -542,7 +515,6 @@ class PremiumImageProcessing(ImageProcessingTemplate):
         True
         >>> img_save_helper('img/out/test_image_32x32_edge.png', img_edge)
         """
-        # YOUR CODE GOES HERE #
         result = image.copy()
         new_img = image.get_pixels()
         for i in range(len(new_img)):
@@ -654,9 +626,6 @@ class PremiumImageProcessing(ImageProcessingTemplate):
 
         
 
-# --------------------------------------------------------------------------- #
-
-# YOU SHOULD NOT MODIFY THESE THREE METHODS
 
 def audio_read_helper(path, visualize=False):
     """
@@ -667,13 +636,10 @@ def audio_read_helper(path, visualize=False):
         num_channels = wav_file.getnchannels()  # Number of channels (1 for mono, 2 for stereo)
         sample_width = wav_file.getsampwidth()  # Number of bytes per sample (e.g., 2 for 16-bit)
         
-        # Read the frames as bytes
         raw_bytes = wav_file.readframes(num_frames)
         
-        # Determine the format string for struct.unpack()
         fmt = f"{num_frames * num_channels}{'h' if sample_width == 2 else 'B'}"
         
-        # Convert bytes to a list of integers
         audio_data = list(struct.unpack(fmt, raw_bytes))
 
     return AudioWave(audio_data)
@@ -687,7 +653,6 @@ def audio_save_helper(path, audio, sample_rate = 44100):
     num_channels = 1  # Mono
     sample_width = 2  # 16-bit PCM
 
-    # Convert list to bytes
     byte_data = struct.pack(f"{len(audio.wave)}h", *audio.wave)
     with wave.open(path, "wb") as wav_file:
         wav_file.setnchannels(num_channels)
@@ -738,10 +703,7 @@ def audio_save_helper(path, audio, sample_rate = 44100):
 #         plt.xlim(start, end)
 #         plt.show()
 
-
-# --------------------------------------------------------------------------- #
-
-# Part 5: Multimedia Processing
+# Multimedia Processing ########
 class AudioWave():
     """
         Represents audio through a 1-dimensional array of amplitudes
@@ -762,7 +724,6 @@ class PremiumPlusMultimediaProcessing(PremiumImageProcessing):
         >>> multi_proc.get_cost()
         75
         """
-        # YOUR CODE GOES HERE #
         self.cost = 75
 
     def pixelate(self, image, block_dim):
@@ -788,7 +749,6 @@ class PremiumPlusMultimediaProcessing(PremiumImageProcessing):
         True
         >>> audio_save_helper('audio/out/one_summers_day_reversed.wav', audio_reversed)
         """
-        # YOUR CODE GOES HERE #
         if not isinstance(audio, AudioWave):
             raise TypeError()
 
@@ -807,7 +767,6 @@ class PremiumPlusMultimediaProcessing(PremiumImageProcessing):
         True
         >>> audio_save_helper('audio/out/one_summers_day_slow.wav', audio_slow)
         """
-        # YOUR CODE GOES HERE #
         if not isinstance(audio, AudioWave):
             raise TypeError()
 
@@ -856,7 +815,6 @@ class PremiumPlusMultimediaProcessing(PremiumImageProcessing):
         True
         >>> audio_save_helper('audio/out/one_summers_day_reverb.wav', audio_reverb)
         """
-        # YOUR CODE GOES HERE #
         if not isinstance(audio, AudioWave):
             raise TypeError()
 
@@ -881,7 +839,6 @@ class PremiumPlusMultimediaProcessing(PremiumImageProcessing):
         True
         >>> audio_save_helper('audio/out/one_summers_day_clipped.wav', audio_clipped)
         """
-        # YOUR CODE GOES HERE #
         if not isinstance(audio, AudioWave):
             raise TypeError()
         if (not isinstance(start, int)) and (not isinstance(end, int)):
@@ -900,7 +857,7 @@ class PremiumPlusMultimediaProcessing(PremiumImageProcessing):
         return AudioWave(audio.wave[starting:ending + 1])
 
 
-# Part 6: Image KNN Classifier #
+# Image KNN Classifier #
 class ImageKNNClassifier:
     """
     Represents a simple KNNClassifier
@@ -910,14 +867,12 @@ class ImageKNNClassifier:
         """
         Creates a new KNN classifier object
         """
-        # YOUR CODE GOES HERE #
         self.neighbors = k_neighbors
 
     def fit(self, data):
         """
         Stores the given set of data and labels for later
         """
-        # YOUR CODE GOES HERE #
         if len(data) < self.neighbors:
             raise ValueError()
         self.data = data
@@ -932,7 +887,6 @@ class ImageKNNClassifier:
         >>> knn.distance(img1, img2)
         15946.312896716909
         """
-        # YOUR CODE GOES HERE #
         squared_sum = sum([(image1.pixels[row][col][channel] - image2.pixels[row][col][channel])**2 for row in range(len(image1.pixels)) for col in range(len(image1.pixels[0])) for channel in range(3)])
         return squared_sum**0.5
 
@@ -944,7 +898,6 @@ class ImageKNNClassifier:
         >>> knn.vote(['label1', 'label2', 'label2', 'label2', 'label1'])
         'label2'
         """
-        # YOUR CODE GOES HERE #
         dic = {}
         for i in candidates:
             if i not in dic.keys():
@@ -962,7 +915,6 @@ class ImageKNNClassifier:
 
         The test for this method is located in the knn_tests method below
         """
-        # YOUR CODE GOES HERE #
         lst = []
         for i in self.data:
             lst += [self.distance(image, i[0])]
@@ -986,31 +938,22 @@ def knn_tests(test_img_path):
     >>> knn_tests('img/knn_test_img.png')
     'nighttime'
     """
-    # Read all of the sub-folder names in the knn_data folder
-    # These will be treated as labels
     path = 'knn_data'
     data = []
     for label in os.listdir(path):
         label_path = os.path.join(path, label)
-        # Ignore non-folder items
         if not os.path.isdir(label_path):
             continue
-        # Read in each image in the sub-folder
         for img_file in os.listdir(label_path):
             train_img_path = os.path.join(label_path, img_file)
             img = img_read_helper(train_img_path)
-            # Add the image object and the label to the dataset
             data.append((img, label))
 
-    # Create a KNN-classifier using the dataset
     knn = ImageKNNClassifier(5)
 
-    # Train the classifier by providing the dataset
     knn.fit(data)
 
-    # Create an RGBImage object of the tested image
     test_img = img_read_helper(test_img_path)
 
-    # Return the KNN's prediction
     predicted_label = knn.predict(test_img)
     return predicted_label
