@@ -1,10 +1,3 @@
-"""
-DSC 20 Project
-Name(s): Ethan Baquiran, Ryan Atienza
-PID(s):  A18187834, A17902620
-Sources: Sublime Text
-"""
-
 import numpy as np
 import os
 from PIL import Image
